@@ -1,6 +1,10 @@
 // Global Variables
 var apiKey = '924c5e9602e9958e3465ca67604517da';
 var searchBtn = $('#searchBtn')
+var savedCitiesEl = $('#savedCities')
+
+// Get list of cities back as array
+var cityList = JSON.parse(localStorage.getItem("cities")) || [];
 
 $(function () {
   // Listener for click events on the search button
@@ -10,7 +14,13 @@ $(function () {
    
     // Save in local storage
     localStorage.setItem("cities", JSON.stringify(cityInput));
-  
+    
+    var ulEl = $('<ul>');
+    for(var i = 0; i < cityList.length; i++) {
+      var liEl = $('<li>');
+      liEl.textContent = "<button class='d grip gap-2 btn btn-primary'></button>"
+      ulEl.appendChild(liEl);
+      }
   });
 });
 // 1. Get the city value from the form
@@ -47,7 +57,9 @@ function getWeather(lat,lon){
 
     // Build the history searched city buttons
     let btnText = weather.city.name;
-    document.querySelector(".city").append(btnText);
+    // for(var i = 0; i < cityList.length; i++) {
+    document.querySelector("#savedCities").append(btnText);
+    // }
 
     //getting the Icon and make an image with it..
     let iconData = weather.list[0].weather[0].icon
